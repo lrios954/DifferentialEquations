@@ -12,7 +12,7 @@ def V(x):
     
     if x >= 1.0:
 
-        return 0.0
+        return 1.0
 
 
 # Aqui tomaremos que psi = y1 y que  psi' = y2, luego definimos las derivadas de y1 y y2
@@ -28,8 +28,8 @@ def y2_prime(x,y1,y2,B,V,E):
 # Definimos el intervalo [a,b] donde queremos resolver nuestra ecuacion diferencial y definimos el paso h que vamos a tomar
 
 a = 0.0
-b = 3.0
-h = 0.0001
+b = 2.0
+h = 0.01
 
 # Calculamos cuantos puntos vamos a tener (n_points) y luego creamos una lista de las coordenadas en x saltando en h de la siguiente manera:
 #
@@ -69,15 +69,15 @@ for j in range(len(E)):
         
 # Graficamos y guardamos
     if (1):
-        norm = numpy.trapz([k**2.0 for k in y1])
+        norm = numpy.trapz([k**2.0 for k in y1],x)
         if sys.argv[1] == 'par':
-            psi = [y/norm for y in y1] + [y/norm for y in y1]
-            ex = [-i for i in x] + x
+            psi = [y1[len(y1)-i-1]/norm for i in range(len(y1))] + [y/norm for y in y1]
+            ex = [-x[len(x)-i-1] for i in range(len(x))] + x
         if sys.argv[1] == 'impar':
-            psi = [-y/norm for y in y1] + [y/norm for y in y1]
-            ex = [-i for i in x] + x            
-        pylab.plot( ex, psi, '.k')
-        pylab.xlim([-3.0,3.0])
+            psi = [-y1[len(y1)-i-1]/norm for i in range(len(y1))] + [y/norm for y in y1]
+            ex = [-x[len(x)-i-1] for i in range(len(x))] + x          
+        pylab.plot( ex, psi, 'k')
+        pylab.xlim([-b,b])
         pylab.xlabel('$x$')
         pylab.ylabel('$\psi$')
         pylab.title('Energy = '+str(E[j])+' eV')
